@@ -6,7 +6,7 @@
 //! Adds a helper App Wrapper called 'ToolFrame' that provides a boilerplate tool app for quick bootstrapping of new apps.
 
 use eframe::{App, CreationContext, Frame};
-use egui::{menu, Context, Id, TopBottomPanel, Ui, ViewportCommand, Window};
+use egui::{Context, Id, MenuBar, TopBottomPanel, Ui, ViewportCommand, Window};
 
 use crate::frame_history::FrameHistory;
 
@@ -67,7 +67,7 @@ impl App for ToolFrame {
             .on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
 
         TopBottomPanel::top(Id::new("top_panel")).show(ctx, |ui| {
-            menu::bar(ui, |ui| {
+            MenuBar::new().ui(ui, |ui| {
                 ui.menu_button("File", |ui| {
                     self.child.file_menu(ui);
 
@@ -83,7 +83,7 @@ impl App for ToolFrame {
 
                     if ui.button("Style").clicked() {
                         self.style_ui = true;
-                        ui.close_menu();
+                        ui.close();
                     }
                 });
 
