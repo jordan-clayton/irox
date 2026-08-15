@@ -144,10 +144,10 @@ impl Units {
         }
     }
 
-    pub fn display<T: irox_tools::ToF64>(
+    pub fn display<T: irox_tools::ToF64, W: core::fmt::Write>(
         &self,
         v: &T,
-        f: &mut core::fmt::Formatter<'_>,
+        f: &mut W,
     ) -> core::fmt::Result {
         let value = v.to_f64();
         if let Some(prefix) = crate::prefixes::PrefixSet::Common.best_prefix_for(&value) {
@@ -200,36 +200,102 @@ pub const ONE_HYPERFINE_SECOND: Quantity<u64> = Quantity::new(9_192_631_770, Uni
 pub const SPEED_OF_LIGHT_VACUUM: Quantity<u64> = Quantity::new(299_792_458, Units::MeterPerSecond);
 pub const ELEMENTARY_CHARGE: Quantity<f64> = Quantity::new(1.602176634e-19, Units::Coulomb);
 
-#[cfg(all(test, feature = "std"))]
+#[cfg(all(test))]
 mod test {
+    use core::fmt::Error;
+    use core::str::Utf8Error;
+    use irox_tools::buf::StrBuf;
+    use irox_tools::cfg_feature_alloc;
+    cfg_feature_alloc! {
+        extern crate alloc;
+        use alloc::string::ToString;
+    }
+
     use crate::quantities::{Quantity, Units};
 
+    #[derive(Debug, Clone)]
+    #[allow(dead_code)]
+    pub enum TestError {
+        Fmt(core::fmt::Error),
+        UTF(core::str::Utf8Error),
+    }
+    impl From<core::fmt::Error> for TestError {
+        fn from(value: Error) -> Self {
+            Self::Fmt(value)
+        }
+    }
+    impl From<core::str::Utf8Error> for TestError {
+        fn from(value: Utf8Error) -> Self {
+            Self::UTF(value)
+        }
+    }
+    macro_rules! check_item {
+        ($val:literal, $unit:expr, $ex:expr) => {
+            let mut buf = StrBuf::<256>::new();
+            Units::display(&Units::Volt, &$ex, &mut buf)?;
+            assert_eq!($val, buf.as_str()?);
+        };
+    }
+    macro_rules! check_qty {
+        ($val:literal, $ex:ident) => {
+            let mut buf = StrBuf::<256>::new();
+            Units::display(&$ex.unit, &$ex.value, &mut buf)?;
+            assert_eq!($val, buf.as_str()?);
+        };
+    }
+
     #[test]
-    pub fn test() {
-        assert_eq!("1.025mV", Units::Volt.format(&1.025e-3));
-        assert_eq!("10.250nV", Units::Volt.format(&1.025e-8));
+    pub fn test() -> Result<(), TestError> {
+        check_item!("1.025mV", Units::Volt, 1.025e-3);
+        check_item!("10.250nV", Units::Volt, 1.025e-8);
 
         let mut q = Quantity::new(1.0256e-3, Units::Volt);
-        assert_eq!("1.026mV", q.to_string());
-        assert_eq!("1.026mV", format!("{q}"));
+        check_qty!("1.026mV", q);
+        cfg_feature_alloc! {
+            assert_eq!("1.026mV", q.to_string());
+            assert_eq!("1.026mV", irox_tools::format!("{q}"));
+        }
         *q = 1.025e-8;
-        assert_eq!("10.250nV", q.to_string());
-        assert_eq!("10.250nV", format!("{q}"));
+        check_qty!("10.250nV", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.250nV", q.to_string());
+            assert_eq!("10.250nV", irox_tools::format!("{q}"));
+        }
         *q = 1.025e4;
-        assert_eq!("10.250kV", q.to_string());
-        assert_eq!("10.250kV", format!("{q}"));
+        check_qty!("10.250kV", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.250kV", q.to_string());
+            assert_eq!("10.250kV", irox_tools::format!("{q}"));
+        }
 
         let q = Quantity::new(1.0256e-8, Units::Ohm);
-        assert_eq!("10.256n\u{03A9}", q.to_string());
+        check_qty!("10.256n\u{03A9}", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.256n\u{03A9}", q.to_string());
+        }
 
         let q = Quantity::new(1.0256e-8, Units::Celsius);
-        assert_eq!("10.256n\u{00B0}C", q.to_string());
+        check_qty!("10.256n\u{00B0}C", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.256n\u{00B0}C", q.to_string());
+        }
 
         let q = Quantity::new(1.0256e-8, Units::SquareMeter);
-        assert_eq!("10.256nm\u{00B2}", q.to_string());
+        check_qty!("10.256nm\u{00B2}", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.256nm\u{00B2}", q.to_string());
+        }
         let q = Quantity::new(1.0256e-8, Units::CubicMeter);
-        assert_eq!("10.256nm\u{00B3}", q.to_string());
+        check_qty!("10.256nm\u{00B3}", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.256nm\u{00B3}", q.to_string());
+        }
         let q = Quantity::new(1.0256e-8, Units::MeterPerSecondPerSecond);
-        assert_eq!("10.256nm/s\u{00B2}", q.to_string());
+        check_qty!("10.256nm/s\u{00B2}", q);
+        cfg_feature_alloc! {
+            assert_eq!("10.256nm/s\u{00B2}", q.to_string());
+        }
+
+        Ok(())
     }
 }
