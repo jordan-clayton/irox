@@ -503,8 +503,8 @@ mod tests {
     // 6f3edd9512fe21e1aaa4e5691f00894a364612e4
     #[test]
     pub fn test_inflate1() -> Result<(), BitsError> {
-        let file = core::fs::File::open("doc/td2.zlib")?;
-        let file = core::io::BufReader::new(file);
+        let file = std::fs::File::open("doc/td2.zlib")?;
+        let file = std::io::BufReader::new(file);
         let file = SharedCountingBits::new(BitsWrapper::Owned(file));
         let mut inf = Inflater::new_zlib(BitsWrapper::Owned(file));
         let mut hash = SHA1::default();
@@ -518,8 +518,8 @@ mod tests {
 
     #[test]
     pub fn test_inflate2() -> Result<(), BitsError> {
-        let file = core::fs::File::open("doc/big.zlib")?;
-        let file = core::io::BufReader::new(file);
+        let file = std::fs::File::open("doc/big.zlib")?;
+        let file = std::io::BufReader::new(file);
         let file = SharedCountingBits::new(BitsWrapper::Owned(file));
         let mut inf = Inflater::new_zlib(BitsWrapper::Owned(file));
         let mut hash = SHA1::default();
