@@ -22,7 +22,7 @@ workspace = true
 [dependencies]
 irox-bits.workspace = true
 irox-time = { workspace = true, features = ["std"] }
-irox-types = { workspace = true, features = ["bits"] }
+irox-types = { workspace = true, features = [] }
 irox-tools = {workspace = true, features = ["std"]}
 irox-cryptids = {workspace = true, features = ["std"]}
 

@@ -17,7 +17,7 @@ workspace = true
 
 [features]
 default = []
-bits = ["dep:irox-bits", "irox-types?/bits"]
+bits = ["dep:irox-bits"]
 csv = ["dep:irox-csv"]
 dot = ["dep:irox-dot"]
 gpx = ["dep:irox-gpx"]

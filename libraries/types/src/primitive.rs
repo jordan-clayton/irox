@@ -134,7 +134,6 @@ impl Primitives {
         }
     }
 
-    #[cfg(feature = "bits")]
     pub fn read_be_from<T: irox_bits::Bits>(
         &self,
         src: &mut T,
@@ -259,7 +258,6 @@ impl PrimitiveValue {
         }
     }
 
-    #[cfg(feature = "bits")]
     pub fn write_be_to<T: irox_bits::MutBits>(
         &self,
         out: &mut T,

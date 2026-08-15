@@ -18,11 +18,10 @@ workspace = true
 [features]
 default = []
 syn = ["dep:syn"]
-bits = ["dep:irox-bits"]
 
 [dependencies]
 irox-enums.workspace = true
 irox-enums_derive.workspace = true
 irox-tools.workspace = true
-irox-bits = {workspace = true, optional = true}
+irox-bits = {workspace = true}
 syn = {workspace = true, optional = true}
