@@ -1,170 +1,160 @@
 @startdot
 
+!unquoted procedure $dep_by_feature($from, $to, $feature)
+        $from -> $to [style=dashed,label="feature[$feature]"];
+!endprocedure
+!unquoted procedure $features($from, $to, $feature)
+        $from -> $to [label="feature[$feature]"];
+!endprocedure
+!procedure $feat_std($name)
+        $name [label="feature[std]"]
+!endprocedure
+!procedure $module($name, $std, $alloc)
+    $name [label=<
+       <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+           <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+    !if ($std == "required")
+           <TR>
+               <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
+               <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
+           </TR>
+    !elseif ($std == "feature")
+            <TR>
+                <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
+                <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+            </TR>
+    !elseif ($std == "no")
+          <TR>
+                <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
+                <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#000000" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+            </TR>
+    !endif
+
+    !if ($alloc == "yes") || ($alloc == "required")
+        <TR>
+           <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
+           <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
+        </TR>
+    !elseif ($alloc == "feature")
+        <TR>
+            <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
+           <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+        </TR>
+    !elseif ($alloc == "no")
+        <TR>
+            <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_alloc</FONT></TD>
+            <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#000000" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+        </TR>
+    !endif
+    </TABLE>>]
+!endprocedure
+
 digraph DEPS {
+        $module("irox_bits", "feature", "feature")
+        $module("irox_enums", "no", "required")
+
         irox_tools -> irox_bits
+        $module("irox_tools", "feature", "feature")
+
         irox_units -> irox_tools
+        $module("irox_units", "feature", "feature")
+
         irox_fixedmath -> irox_tools
+        $module("irox_fixedmath", "no", "no")
+
+        irox_geometry -> {
+            'irox_tools 'through units
+            irox_units
+        }
+        $module("irox_geometry", "feature", "feature")
 
         irox_time -> {
             irox_enums
             irox_units
-            irox_tools
+            'irox_tools 'through units
             irox_fixedmath
         }
+        $module("irox_time", "feature", "required")
 
         irox_carto -> {
-            irox_tools
-            irox_enums
+            'irox_tools 'through time
+            'irox_enums 'through time
             irox_time
+            'irox_units 'through time
         }
-        irox_carto -> irox_units;
+        $module("irox_carto", "feature", "required")
 
-        irox_cryptids -> {irox_bits irox_tools}
+        irox_cryptids -> {
+            irox_bits
+            irox_tools
+        }
+        $module("irox_cryptids", "feature", "no")
 
         irox_types -> {
             irox_enums
             irox_tools
+            'irox_bits
         }
-        irox_types -> irox_bits [style=dashed,label="feature[bits]"];
+        $module("irox_types", "no", "required")
 
         irox_imagery -> {
             irox_log
-            irox_bits
-            irox_tools
-            irox_units
-            irox_carto
-            irox_types
+            irox_structs
+            irox_compression
+            'irox_bits
+            'irox_tools
         }
+        $module("irox_imagery", "feature", "required")
+
         irox_stats -> {
-            irox_tools
-            irox_bits
+            'irox_tools 'through units
+            'irox_bits 'through tools
             irox_types
             irox_time
-            irox_units
+            'irox_units 'through time 
         }
-
-        irox_progress -> {
-            irox_tools [label="feature[std]"]
-            irox_bits [label="feature[std]"]
-            irox_time [label="feature[std]"]
-            log
-        }
-
-        irox_structs -> irox_bits
-
-        irox_build_rs -> irox_time [label="feature[std]"]
-
-        irox_csv -> irox_tools
-
-        irox_dot -> irox_bits
-
-        irox_log -> {log irox_tools}
-        irox_log -> irox_time [label="feature[std]"]
-
-        log [shape=component]
-
-        irox_compression -> irox_bits
-        irox_compression -> irox_tools
-
-        !procedure $module($name, $std, $alloc)
-            !if ($std == "required")
-                $name [label=<
-                   <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                       <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                       <TR>
-                           <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                           <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                       </TR>
-                       </TABLE>>]
-            !elseif ($std == "feature") && ($alloc == "required")
-                $name [label=<
-                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                  <TR>
-                     <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                     <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                 </TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                       <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                    </TR>
-                  </TABLE>>]
-            !elseif ($std == "feature") && ($alloc == "feature")
-                $name [label=<
-                    <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                    <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                        <TR>
-                            <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                            <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                        </TR>
-                        <TR>
-                            <TD BGCOLOR="#555555" WIDTH="30" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">alloc</FONT></TD>
-                            <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                        </TR>
-                    </TABLE>>]
-            !elseif ($std == "no") && ($alloc == "required")
-                $name [label=<
-                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                    </TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                       <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                    </TR>
-                  </TABLE>>]
-            !elseif ($std == "no") && ($alloc == "feature")
-                $name [label=<
-                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                    </TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                       <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                    </TR>
-                  </TABLE>>]
-            !elseif ($std == "no") && ($alloc == "no")
-                $name [label=<
-                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
-                  <TR>
-                      <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                      <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                  </TR>
-                  <TR>
-                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_alloc</FONT></TD>
-                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                    </TR>
-                  </TABLE>>]
-            !endif
-        !endprocedure
-
-        $module("irox_bits", "feature", "feature")
-        $module("irox_tools", "feature", "feature")
-        $module("irox_cryptids", "no", "no")
-
-        $module("irox_units", "feature", "feature")
-        $module("irox_csv", "required", "required")
-        $module("irox_dot", "required", "required")
-        $module("irox_build_rs", "required", "required")
-
-        $module("irox_fixedmath", "no", "no")
-        $module("irox_time", "feature", "required")
-        $module("irox_enums", "no", "required")
-        $module("irox_carto", "feature", "required")
-        $module("irox_structs", "no", "feature")
-        $module("irox_types", "no", "required")
-        $module("irox_compression", "no", "required")
         $module("irox_stats", "no", "required")
-        $module("irox_imagery", "feature", "required")
-        $module("irox_log", "feature", "required")
+
+
+        irox_progress -> log
+        irox_progress -> $feat_std(irox_time)
+        irox_progress -> $feat_std(irox_tools)
+        irox_progress -> $feat_std(irox_bits)
         $module("irox_progress", "required", "required")
 
+        irox_structs -> irox_bits
+        $module("irox_structs", "no", "feature")
+
+        irox_build_rs -> $feat_std(irox_time)
+        $module("irox_build_rs", "required", "required")
+
+        irox_csv -> irox_tools
+        $module("irox_csv", "required", "required")
+
+        irox_dot -> $feat_std(irox_bits)
+        $module("irox_dot", "required", "required")
+
+        irox_log -> {
+            log
+            'irox_tools 'through time
+        }
+        irox_log -> $feat_std(irox_time)
+        $module("irox_log", "feature", "required")
+
+        irox_compression -> {irox_bits irox_tools}
+        $module("irox_compression", "no", "required")
+
+        irox_graphing -> irox_geometry
+        irox_graphing -> $feat_std(irox_units)
+        irox_graphing -> $feat_std(irox_log)
+        irox_graphing -> $feat_std(irox_tools)
+        $module("irox_graphing", "required", "required")
+
+        irox_threading -> log
+        $module("irox_threading", "required", "required")
+
+
+        log [shape=component]
 }
 
 @end
