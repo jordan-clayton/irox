@@ -2,11 +2,14 @@
 // Copyright 2025 IROX Contributors
 //
 
+use alloc::collections::VecDeque;
+use alloc::vec;
+use alloc::vec::Vec;
+use core::cmp::Ordering;
 use core::fmt::Debug;
 use irox_bits::{BitStreamDecoder, Bits, BitsError, BitsErrorKind, BitsWrapper, Error, MutBits};
 use irox_tools::buf::{UnlimitedBuffer, ZeroedBuffer};
-use std::cmp::Ordering;
-use std::collections::VecDeque;
+use irox_tools::format;
 
 static CODE_LENGTH_ORDER: &[usize] = &[
     16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15,
@@ -126,7 +129,7 @@ struct HuffLength {
     revsym: u32,
 }
 impl Debug for HuffLength {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_struct("HuffLength")
             .field("code", &self.code)
             .field("bits", &self.bits)
@@ -491,7 +494,7 @@ impl Bits for Deflater {
         Ok(self.readbuf.pop_front())
     }
 }
-#[cfg(test)]
+#[cfg(all(test, feature = "std"))]
 mod tests {
     use crate::deflate::Inflater;
     use irox_bits::{BitsError, BitsWrapper, SharedCountingBits};
@@ -500,8 +503,8 @@ mod tests {
     // 6f3edd9512fe21e1aaa4e5691f00894a364612e4
     #[test]
     pub fn test_inflate1() -> Result<(), BitsError> {
-        let file = std::fs::File::open("doc/td2.zlib")?;
-        let file = std::io::BufReader::new(file);
+        let file = core::fs::File::open("doc/td2.zlib")?;
+        let file = core::io::BufReader::new(file);
         let file = SharedCountingBits::new(BitsWrapper::Owned(file));
         let mut inf = Inflater::new_zlib(BitsWrapper::Owned(file));
         let mut hash = SHA1::default();
@@ -515,8 +518,8 @@ mod tests {
 
     #[test]
     pub fn test_inflate2() -> Result<(), BitsError> {
-        let file = std::fs::File::open("doc/big.zlib")?;
-        let file = std::io::BufReader::new(file);
+        let file = core::fs::File::open("doc/big.zlib")?;
+        let file = core::io::BufReader::new(file);
         let file = SharedCountingBits::new(BitsWrapper::Owned(file));
         let mut inf = Inflater::new_zlib(BitsWrapper::Owned(file));
         let mut hash = SHA1::default();

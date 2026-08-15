@@ -10,6 +10,8 @@ pub extern crate irox_bits;
 pub extern crate irox_build_rs;
 #[cfg(feature = "carto")]
 pub extern crate irox_carto;
+#[cfg(feature = "compression")]
+pub extern crate irox_compression;
 #[cfg(feature = "cryptids")]
 pub extern crate irox_cryptids;
 #[cfg(feature = "csv")]
@@ -81,6 +83,9 @@ pub use irox_build_rs as build;
 
 #[cfg(feature = "carto")]
 pub use irox_carto as carto;
+
+#[cfg(feature = "compression")]
+pub use irox_compression as compression;
 
 #[cfg(feature = "cryptids")]
 pub use irox_cryptids as cryptids;

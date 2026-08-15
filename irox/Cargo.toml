@@ -34,6 +34,7 @@ win-loc-api = ["dep:irox-winlocation-api"]
 
 build = ["dep:irox-build-rs"]
 carto = ["dep:irox-carto"]
+compression = ["dep:irox-compression"]
 cryptids = ["dep:irox-cryptids"]
 derive-helpers = ["dep:irox-derive-helpers"]
 egui-extras = ["dep:irox-egui-extras"]
@@ -60,7 +61,7 @@ units = ["dep:irox-units"]
 std = [
     "irox-bits?/std", "irox-carto?/std", "irox-cryptids?/std", "irox-imagery?/std", "irox-log?/std",
     "irox-networking?/std", "irox-metrics?/std", "irox-stats?/std", "irox-time?/std", "irox-tools?/std",
-    "irox-units?/std"]
+    "irox-units?/std", "irox-compression?/std"]
 alloc = ["irox-bits?/alloc", "irox-structs?/alloc", "irox-tools?/alloc", "irox-units?/alloc"]
 egui = ["irox-imagery?/egui", "irox-dot?/egui", "irox-graphing?/egui", "irox-geometry?/egui"]
 eframe = ["irox-egui-extras?/eframe"]
@@ -91,6 +92,7 @@ all_irox = [
     "sirf",
     "ubx",
     "carto",
+    "compression",
     "cryptids",
     "egui-extras",
     "enums",
@@ -145,6 +147,7 @@ irox-winlocation-api = { version = "^0.5.3", optional = true, path = "../interfa
 irox-bits = { version = "^0.5.0", optional = true, path = "../libraries/bits" }
 irox-build-rs = { version = "^0.2.4", optional = true, path = "../libraries/build-rs" }
 irox-carto = { version = "^0.6.5", optional = true, path = "../libraries/carto" }
+irox-compression = { version = "^0.1.0", optional = true, path = "../libraries/compression" }
 irox-cryptids = { version = "^0.1.2", optional = true, path = "../libraries/cryptids" }
 irox-derive-helpers = { version = "^0.1.1", optional = true, path = "../libraries/derive-helpers" }
 irox-egui-extras = { version = "^0.7.0", optional = true, path = "../libraries/egui_extras" }

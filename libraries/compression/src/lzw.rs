@@ -136,7 +136,6 @@ mod test {
             assert_eq!(lzw.getstrcode(&[7, 7, 6]), Some(262));
             assert_eq!(lzw.getstrcode(&[6, 6]), Some(263));
         }
-        println!("{buf:#?}");
         assert_eq!(buf, [0x03, 0xC0, 0x81, 0x00, 0x88, 0x10, 0x18, 0x0D, 0x01]);
 
         Ok(())

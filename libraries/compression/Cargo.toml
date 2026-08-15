@@ -12,6 +12,10 @@ exclude.workspace = true
 repository.workspace = true
 readme = "README.md"
 
+[features]
+default = []
+std = []
+
 [lints]
 workspace = true
 
