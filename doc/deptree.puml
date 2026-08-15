@@ -63,194 +63,108 @@ digraph DEPS {
 
         log [shape=component]
 
-        irox_bits [label=<
-            <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-            <TR><TD COLSPAN="2"><B>irox_bits</B></TD></TR>
-                <TR>
-                    <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                    <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                </TR>
-                <TR>
-                    <TD BGCOLOR="#555555" WIDTH="30" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">alloc</FONT></TD>
-                    <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                </TR>
-            </TABLE>>]
-        irox_tools [label=<
-            <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-                <TR><TD COLSPAN="2"><B>irox_tools</B></TD></TR>
-                <TR>
-                    <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                    <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                </TR>
-                <TR>
-                    <TD BGCOLOR="#555555" WIDTH="30" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">alloc</FONT></TD>
-                    <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                </TR>
-                </TABLE>>]
-        irox_cryptids [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_cryptids</B></TD></TR>
-              <TR>
-                  <TD BGCOLOR="#555555" WIDTH="41" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                  <TD BGCOLOR="#97ca00" WIDTH="23" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-              </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="41" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_alloc</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="23" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_units [label=<
-           <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-               <TR><TD COLSPAN="2"><B>irox_units</B></TD></TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                   <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-               </TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="30" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">alloc</FONT></TD>
-                   <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-               </TR>
-               </TABLE>>]
-        irox_csv [label=<
-           <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-               <TR><TD COLSPAN="2"><B>irox_csv</B></TD></TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-               </TR>
-               </TABLE>>]
-        irox_dot [label=<
-           <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-               <TR><TD COLSPAN="2"><B>irox_dot</B></TD></TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-               </TR>
-               </TABLE>>]
-        irox_build_rs [label=<
-           <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-               <TR><TD COLSPAN="2"><B>irox_build_rs</B></TD></TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-               </TR>
-               </TABLE>>]
-        irox_fixedmath [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_fixedmath</B></TD></TR>
-              <TR>
-                  <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                  <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-              </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_alloc</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_time [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_time</B></TD></TR>
-              <TR>
-                 <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                 <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-             </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_enums [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_enums</B></TD></TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_carto [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_carto</B></TD></TR>
-              <TR>
-                 <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                 <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-             </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_structs [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_structs</B></TD></TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_types [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_types</B></TD></TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_stats [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_stats</B></TD></TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
-                    <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
-                </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_imagery [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_imagery</B></TD></TR>
-              <TR>
-                 <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                 <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-             </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
-        irox_log [label=<
-           <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-               <TR><TD COLSPAN="2"><B>irox_log</B></TD></TR>
-               <TR>
-                   <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                   <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
-               </TR>
-               </TABLE>>]
-        irox_progress [label=<
-              <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
-              <TR><TD COLSPAN="2"><B>irox_progress</B></TD></TR>
-              <TR>
-                 <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
-                 <TD BGCOLOR="#9f9f9f" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-             </TR>
-              <TR>
-                    <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
-                   <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
-                </TR>
-              </TABLE>>]
+        irox_compression -> irox_bits
+        irox_compression -> irox_tools
+
+        !procedure $module($name, $std, $alloc)
+            !if ($std == "required")
+                $name [label=<
+                   <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                       <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                       <TR>
+                           <TD BGCOLOR="#555555" WIDTH="22" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
+                           <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
+                       </TR>
+                       </TABLE>>]
+            !elseif ($std == "feature") && ($alloc == "required")
+                $name [label=<
+                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                  <TR>
+                     <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
+                     <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+                 </TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
+                       <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
+                    </TR>
+                  </TABLE>>]
+            !elseif ($std == "feature") && ($alloc == "feature")
+                $name [label=<
+                    <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                    <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                        <TR>
+                            <TD BGCOLOR="#555555" WIDTH="30" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> std</FONT></TD>
+                            <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+                        </TR>
+                        <TR>
+                            <TD BGCOLOR="#555555" WIDTH="30" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">alloc</FONT></TD>
+                            <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+                        </TR>
+                    </TABLE>>]
+            !elseif ($std == "no") && ($alloc == "required")
+                $name [label=<
+                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
+                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+                    </TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
+                       <TD BGCOLOR="#9f9f9f" WIDTH="50" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">required</FONT></TD>
+                    </TR>
+                  </TABLE>>]
+            !elseif ($std == "no") && ($alloc == "feature")
+                $name [label=<
+                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
+                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+                    </TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="31" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> alloc</FONT></TD>
+                       <TD BGCOLOR="#007ec6" WIDTH="41" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">feature</FONT></TD>
+                    </TR>
+                  </TABLE>>]
+            !elseif ($std == "no") && ($alloc == "no")
+                $name [label=<
+                  <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2" STYLE="ROUNDED">
+                  <TR><TD COLSPAN="2"><B>$name</B></TD></TR>
+                  <TR>
+                      <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_std</FONT></TD>
+                      <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+                  </TR>
+                  <TR>
+                        <TD BGCOLOR="#555555" WIDTH="21" ALIGN="RIGHT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12"> no_alloc</FONT></TD>
+                        <TD BGCOLOR="#97ca00" WIDTH="10" ALIGN="LEFT"><FONT COLOR="#FFFFFF" FACE="sans-serif" POINT-SIZE="12">yes</FONT></TD>
+                    </TR>
+                  </TABLE>>]
+            !endif
+        !endprocedure
+
+        $module("irox_bits", "feature", "feature")
+        $module("irox_tools", "feature", "feature")
+        $module("irox_cryptids", "no", "no")
+
+        $module("irox_units", "feature", "feature")
+        $module("irox_csv", "required", "required")
+        $module("irox_dot", "required", "required")
+        $module("irox_build_rs", "required", "required")
+
+        $module("irox_fixedmath", "no", "no")
+        $module("irox_time", "feature", "required")
+        $module("irox_enums", "no", "required")
+        $module("irox_carto", "feature", "required")
+        $module("irox_structs", "no", "feature")
+        $module("irox_types", "no", "required")
+        $module("irox_compression", "no", "required")
+        $module("irox_stats", "no", "required")
+        $module("irox_imagery", "feature", "required")
+        $module("irox_log", "feature", "required")
+        $module("irox_progress", "required", "required")
+
 }
 
 @end
