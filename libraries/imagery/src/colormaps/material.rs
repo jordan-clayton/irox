@@ -237,3 +237,31 @@ pub static MATERIAL: &[&[Color; 10]; 19] = &[
     RED, PINK, PURPLE, ROYAL, INDIGO, BLUE, SKY, CYAN, TEAL, GREEN, LEAF, LIME, YELLOW, AMBER,
     ORANGE, FIRE, BROWN, GREY, SLATE,
 ];
+pub fn generate<const N: usize>(hue: u16) -> [Color; N] {
+    let mut out = [Color::default(); N];
+    for (i, col) in out.iter_mut().enumerate() {
+        let val = 255 - 18 * i;
+        let sat = 25 * i;
+        *col = Color::hsv(hue, sat as u8, val as u8);
+    }
+    out
+}
+
+#[cfg(all(test, feature = "std"))]
+mod tests {
+    use crate::colormaps::material::MATERIAL;
+
+    #[test]
+    #[ignore]
+    pub fn test() {
+        for mat in *MATERIAL {
+            for col in mat {
+                let hsv = col.to_hsv();
+                println!(
+                    "{:0.02} {:0.02} {:0.02}",
+                    hsv.hue, hsv.saturation, hsv.value
+                );
+            }
+        }
+    }
+}
