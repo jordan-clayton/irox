@@ -47,6 +47,7 @@ pub mod arrows;
 pub mod drawpanel;
 pub mod fontmesh;
 pub mod fonts;
+pub mod identifier;
 #[cfg(feature = "plots")]
 pub mod logplot;
 pub mod pwdlg;

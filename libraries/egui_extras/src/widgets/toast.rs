@@ -2,6 +2,7 @@
 // Copyright 2026 IROX Contributors
 //
 
+use crate::identifier::Identifier;
 use crate::widgets::arcwedge::{ArcWedge, ArcWedgeSet};
 use eframe::emath::Align;
 use egui::{Align2, Context, Id, Label, Layout, Order, Ui, Vec2, Window};
@@ -79,14 +80,20 @@ impl Default for ToastInnerState {
 }
 static_init!(get_toast_count, Id, Id::new("TOAST_COUNT"));
 pub struct Toast {
-    pub id: Id,
+    pub id: Identifier,
     pub title: String,
     pub text: String,
     pub timeout: Duration,
 }
 
 impl Toast {
-    pub fn new(id: Id, title: String, text: String, timeout: Duration, ui: &mut Ui) -> Self {
+    pub fn new(
+        id: Identifier,
+        title: String,
+        text: String,
+        timeout: Duration,
+        ui: &mut Ui,
+    ) -> Self {
         ui.memory_mut(|mem| {
             let mut istate = ToastInnerState::default();
 
@@ -95,7 +102,7 @@ impl Toast {
                 .get_temp_mut_or_default::<ToastIndex>(*get_toast_count());
 
             istate.my_offset = v.claim_next();
-            mem.data.insert_temp(id.with("_state"), istate);
+            mem.data.insert_temp(id.with("_state").external(), istate);
         });
 
         Self {
@@ -105,9 +112,12 @@ impl Toast {
             timeout,
         }
     }
-    fn clean_state(id: Id, state: &mut ToastInnerState, ui: &mut Ui) {
+    fn clean_state(id: &Identifier, state: &mut ToastInnerState, ui: &mut Ui) {
         state.opened_time = None;
-        ui.memory_mut(|mem| mem.data.remove_temp::<ToastState>(id.with("_state")));
+        ui.memory_mut(|mem| {
+            mem.data
+                .remove_temp::<ToastState>(id.with("_state").external())
+        });
         if let Some(toast_idx) = state.my_offset.take() {
             ui.memory_mut(|mem| {
                 let v = mem
@@ -118,9 +128,9 @@ impl Toast {
         }
     }
     pub fn show(&self, ctx: &Context, ui: &mut egui::Ui) -> ToastState {
-        let Some(mut state) = ui
-            .memory_mut::<Option<ToastInnerState>>(|mem| mem.data.get_temp(self.id.with("_state")))
-        else {
+        let Some(mut state) = ui.memory_mut::<Option<ToastInnerState>>(|mem| {
+            mem.data.get_temp(self.id.with("_state").external())
+        }) else {
             return ToastState::Done;
         };
         ui.memory_mut(|mem| {
@@ -129,7 +139,7 @@ impl Toast {
                 .get_temp_mut_or_default::<ToastIndex>(*get_toast_count());
             state.my_offset = v.try_improve(state.my_offset);
         });
-        let anim = ui.animate_bool_with_time(self.id.with("_anim"), state.opening, 0.5);
+        let anim = ui.animate_bool_with_time(self.id.with("_anim").external(), state.opening, 0.5);
         let voff = state.last_rect.map(|rect| rect.height()).unwrap_or(500.);
 
         let toast_index = state.my_offset.unwrap_or_default() as f32;
@@ -152,13 +162,13 @@ impl Toast {
                 }
             }
             (ToastState::Closing, 0.0) => {
-                Self::clean_state(self.id, &mut state, ui);
+                Self::clean_state(&self.id, &mut state, ui);
                 return ToastState::Done;
             }
             (_, _) => {}
         }
         let result = Window::new(&self.text)
-            .id(self.id)
+            .id(self.id.external())
             .title_bar(false)
             .order(Order::Foreground)
             // .scroll(true)
@@ -180,7 +190,7 @@ impl Toast {
                             let elapsed = opened_time.elapsed();
                             let end_angle = Angle::new_degrees(360.) * (elapsed / self.timeout);
                             ArcWedgeSet {
-                                identifier: self.id.with("_wedgeset"),
+                                identifier: self.id.with("_wedgeset").external(),
                                 size: 24.,
                                 wedges: vec![ArcWedge {
                                     identifier: self.id.with("_wedge"),
@@ -198,7 +208,7 @@ impl Toast {
                             .show(ui);
                         }
                         if ui.button("X").clicked() {
-                            Self::clean_state(self.id, &mut state, ui);
+                            Self::clean_state(&self.id, &mut state, ui);
                             state.state = ToastState::Done;
                         };
                     },
@@ -213,7 +223,8 @@ impl Toast {
         let outstate = state.state;
         if outstate != ToastState::Done {
             ui.memory_mut(|mem| {
-                mem.data.insert_temp(self.id.with("_state"), state);
+                mem.data
+                    .insert_temp(self.id.with("_state").external(), state);
             });
         }
         outstate

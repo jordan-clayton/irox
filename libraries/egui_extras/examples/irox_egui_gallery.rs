@@ -4,7 +4,7 @@
 
 use eframe::emath::Align;
 use eframe::{App, CreationContext, Frame};
-use egui::{Align2, CentralPanel, Id, Layout, Ui, Vec2, ViewportBuilder, Window};
+use egui::{Align2, CentralPanel, Layout, Ui, Vec2, ViewportBuilder, Window};
 use irox_build_rs::BuildEnvironment;
 use irox_egui_extras::about::AboutWindow;
 use irox_egui_extras::composite::CompositeApp;
@@ -319,7 +319,7 @@ impl App for TestApp {
 
                 if ui.button("Toast!").clicked() {
                     let toast = Toast::new(
-                        Id::new(format!("Toast_{}", self.toast_idx)),
+                        format!("Toast_{}", self.toast_idx).into(),
                         "Test Toast".to_string(),
                         "This is a test toast\nIt may be multi-lined".to_string(),
                         irox_time::Duration::from_seconds(10),

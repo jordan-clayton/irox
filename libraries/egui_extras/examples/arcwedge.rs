@@ -7,8 +7,6 @@ use eframe::{App, CreationContext, Frame};
 use egui::{CentralPanel, Grid, Id, Slider, Ui, ViewportBuilder, Widget};
 use irox_egui_extras::toolframe::{ToolApp, ToolFrame};
 use irox_egui_extras::widgets::arcwedge::{ArcWedge, ArcWedgeSet};
-use irox_imagery::colormaps::DIVERGENT_19;
-use irox_tools::iterators::Itertools;
 use irox_units::units::angle::Angle;
 use log::{error, Level};
 
@@ -98,26 +96,21 @@ impl App for TestApp {
             let set = irox_imagery::colormaps::flat::FLAT;
             let bold = 5;
             let light = 1;
-            for (i, idx) in DIVERGENT_19
-                .iter()
-                .looping_forever()
-                .take(count)
-                .enumerate()
-            {
+            for (i, idx) in (0..count).enumerate() {
                 let start = self.start_angle + width * (i as f32);
                 let end = self.start_angle + width * (i as f32 + 1.);
                 let light = set
-                    .get(*idx)
+                    .get(idx)
                     .and_then(|v| v.get(light))
                     .copied()
                     .unwrap_or_default();
                 let bold = set
-                    .get(*idx)
+                    .get(idx)
                     .and_then(|v| v.get(bold))
                     .copied()
                     .unwrap_or_default();
                 let wedge = ArcWedge {
-                    identifier: Id::new(format!("wedge1_{i}")),
+                    identifier: format!("wedge1_{i}").into(),
                     start_angle: Angle::new_degrees(start as f64),
                     end_angle: Angle::new_degrees(end as f64),
                     pad_angle: Angle::new_degrees(self.pad_angle as f64),
@@ -130,7 +123,12 @@ impl App for TestApp {
                 };
                 wedgeset.wedges.push(wedge)
             }
-            wedgeset.show(ui);
+            let resp = wedgeset.show(ui);
+            for (_id, resp) in resp {
+                if resp.clicked || resp.hovered {
+                    //println!("{id} :: {resp:?}");
+                }
+            }
         });
     }
 }

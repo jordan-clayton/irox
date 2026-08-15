@@ -2,12 +2,14 @@
 // Copyright 2026 IROX Contributors
 //
 
+use crate::identifier::Identifier;
 use egui::epaint::{PathShape, Vertex};
 use egui::{Color32, Id, Mesh, Painter, Pos2, Sense, Shape, Stroke, Ui, Vec2};
 use irox_geometry::{Geometry, Point, Polygon, Vector, Vector2D};
 use irox_units::units::angle::Angle;
 use std::sync::Arc;
 
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Response {
     pub hovered: bool,
     pub clicked: bool,
@@ -26,17 +28,20 @@ pub struct ArcWedgeSet {
     pub wedges: Vec<ArcWedge>,
 }
 impl ArcWedgeSet {
-    pub fn show(&self, ui: &mut Ui) {
+    pub fn show(&mut self, ui: &mut Ui) -> Box<[(Identifier, Response)]> {
         let (id, rect) = ui.allocate_space(Vec2::splat(self.size));
         let response = ui.interact(rect, id, Sense::click());
         let painter = ui.painter_at(rect);
-        for wedge in &self.wedges {
-            wedge.show(ui, &painter, &response);
+        let mut out = Vec::<(Identifier, Response)>::with_capacity(self.wedges.len());
+        for wedge in &mut self.wedges {
+            let resp = wedge.show(ui, &painter, &response);
+            out.push((wedge.identifier.clone(), resp));
         }
+        out.into_boxed_slice()
     }
 }
 pub struct ArcWedge {
-    pub identifier: Id,
+    pub identifier: Identifier,
     pub start_angle: Angle,
     pub end_angle: Angle,
     pub pad_angle: Angle,
@@ -48,9 +53,10 @@ pub struct ArcWedge {
     pub hovered_fill_color: Color32,
 }
 impl ArcWedge {
-    pub fn show(&self, ui: &mut Ui, painter: &Painter, response: &egui::Response) -> Response {
+    pub fn show(&mut self, ui: &mut Ui, painter: &Painter, response: &egui::Response) -> Response {
         let painter_space = response.rect;
-        let hovered: bool = ui.memory(|mem| mem.data.get_temp(self.identifier).unwrap_or_default());
+        let id = self.identifier.external();
+        let hovered: bool = ui.memory(|mem| mem.data.get_temp(id).unwrap_or_default());
         let ctr = painter_space.center();
 
         let mut polygon_intersection = Polygon::<f32>::empty();
@@ -119,7 +125,7 @@ impl ArcWedge {
         };
         let clicked = if hovered { response.clicked() } else { false };
         ui.memory_mut(|mem| {
-            mem.data.insert_temp(self.identifier, hovered);
+            mem.data.insert_temp(id, hovered);
         });
 
         Response { hovered, clicked }
