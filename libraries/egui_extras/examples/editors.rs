@@ -4,8 +4,9 @@
 
 use eframe::emath::Vec2;
 use eframe::{App, CreationContext, Frame};
-use egui::{Ui, ViewportBuilder};
+use egui::{CentralPanel, Ui, ViewportBuilder};
 use irox_egui_extras::toolframe::{ToolApp, ToolFrame};
+use irox_egui_extras::widgets::NullableBooleanEditor;
 use log::{error, Level};
 
 pub fn main() {
@@ -17,7 +18,7 @@ pub fn main() {
         ..Default::default()
     };
     if let Err(e) = eframe::run_native(
-        "irox-egui-gallery",
+        "irox-egui-editors",
         native_options,
         Box::new(|cc| {
             let comp = Box::new(ToolFrame::new(cc, Box::new(TestApp::new(cc))));
@@ -28,14 +29,28 @@ pub fn main() {
     };
 }
 
-pub struct TestApp;
+pub struct TestApp {
+    field1: Option<bool>,
+    field1_desc: NullableBooleanEditor<'static>,
+}
 impl TestApp {
     pub fn new(_cc: &CreationContext) -> Self {
-        TestApp {}
+        TestApp {
+            field1: None,
+            field1_desc: NullableBooleanEditor::new("Field1", false),
+        }
+    }
+
+    pub fn show(&mut self, ui: &mut Ui) {
+        self.field1_desc.show(&mut self.field1, ui);
     }
 }
 
 impl App for TestApp {
-    fn ui(&mut self, _ui: &mut Ui, _frame: &mut Frame) {}
+    fn ui(&mut self, ui: &mut Ui, _frame: &mut Frame) {
+        CentralPanel::default().show_inside(ui, |ui| {
+            self.show(ui);
+        });
+    }
 }
 impl ToolApp for TestApp {}
