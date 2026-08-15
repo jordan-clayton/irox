@@ -32,19 +32,26 @@ impl Identifier {
     /// Represents this identifier as an [`u64`] type
     #[must_use]
     pub fn as_integer(&self) -> Identifier {
+        Identifier::Integer(self.int_value())
+    }
+
+    /// Returns the internal [`u64`] value of this identifier.  If this type
+    /// does not represent a [`u64`] - it is converted.
+    #[must_use]
+    pub fn int_value(&self) -> u64 {
         match self {
-            Identifier::Integer(i) => Identifier::Integer(*i),
+            Identifier::Integer(i) => *i,
             Identifier::String(s) => {
                 let hash = murmur3_128(s.as_bytes());
-                Identifier::Integer(hash as u64)
+                hash as u64
             }
             Identifier::Str(s) => {
                 let hash = murmur3_128(s.as_bytes());
-                Identifier::Integer(hash as u64)
+                hash as u64
             }
             Identifier::UUID(u) => {
                 let inner: u128 = u.into();
-                Identifier::Integer(inner as u64)
+                inner as u64
             }
         }
     }
@@ -58,6 +65,13 @@ impl Identifier {
             Identifier::Str(s) => Identifier::String(s.to_string()),
             Identifier::UUID(u) => Identifier::String(crate::format!("{u}")),
         }
+    }
+
+    /// Returns the string representation of this value - essentially the same as
+    /// [`core::fmt::Display`]
+    #[must_use]
+    pub fn str_value(&self) -> String {
+        crate::format!("{self}")
     }
 
     /// Represents this identifier as a [`UUID`] type
@@ -77,6 +91,50 @@ impl Identifier {
                 Identifier::UUID(inner.into())
             }
             Identifier::UUID(u) => Identifier::UUID(*u),
+        }
+    }
+
+    /// Represents this identifer as a UUID and returns the inner type
+    #[must_use]
+    pub fn uuid_value(&self) -> UUID {
+        match self {
+            Identifier::Integer(i) => {
+                let inner: u128 = *i as u128;
+                inner.into()
+            }
+            Identifier::String(s) => {
+                let inner: u128 = murmur3_128(s);
+                inner.into()
+            }
+            Identifier::Str(s) => {
+                let inner: u128 = murmur3_128(s.as_bytes());
+                inner.into()
+            }
+            Identifier::UUID(u) => *u,
+        }
+    }
+
+    /// Concatenates this identifier with the provided one forming a new ID.  Strings
+    /// are concatenated, integers and UUIDs are added.
+    #[must_use]
+    pub fn with<T: Into<Identifier>>(&self, other: T) -> Identifier {
+        let other = other.into();
+        match self {
+            Identifier::Integer(i) => i.wrapping_add(other.int_value()).into(),
+            Identifier::Str(s) => {
+                let o = other.str_value();
+                format!("{s}{o}").into()
+            }
+            Identifier::String(s) => {
+                let o = other.str_value();
+                format!("{s}{o}").into()
+            }
+            Identifier::UUID(u) => {
+                let o = other.uuid_value();
+                let o: u128 = o.into();
+                let v = o.wrapping_add(u128::from(u));
+                UUID::from(v).into()
+            }
         }
     }
 }
